@@ -42,8 +42,13 @@ private data class VoiceIMEInfo(
 fun usePackageReadableName(pkg: String): String? {
     val context = LocalContext.current
     return remember(pkg) {
-        context.packageManager.getPackageInfo(pkg, 0)?.applicationInfo?.let {
-            context.packageManager.getApplicationLabel(it).toString()
+        try {
+            context.packageManager.getPackageInfo(pkg, 0)
+        } catch(e: Exception) {
+            null
+        }?.applicationInfo?.let {
+                context.packageManager.getApplicationLabel(it).toString()
+            }
         }
     }
 }
